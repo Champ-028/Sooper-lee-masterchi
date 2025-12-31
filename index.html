@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year Kattavarathams</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #5d4037; text-align: center; min-height: 100vh; overflow-x: hidden;
+        }
+        .page { display: none; padding: 20px; width: 100%; box-sizing: border-box; }
+        .active { display: block !important; animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .container {
+            margin-top: 15vh; padding: 30px; border-radius: 20px;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3); display: inline-block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .btn-next, .btn-open {
+            padding: 15px 35px; font-size: 1rem; font-weight: 600;
+            background: #d4af37; color: white; border: none; border-radius: 50px;
+            cursor: pointer; margin: 30px 0; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .swal-member-img {
+            width: 150px; height: 150px; border-radius: 50%;
+            object-fit: cover; border: 4px solid #d4af37; margin-bottom: 15px;
+        }
+
+        .photo-grid { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 30px; 
+            padding-bottom: 50px;
+        } 
+        .photo-grid img { width: 90%; max-width: 450px; border-radius: 15px; border: 4px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        #finalPage { background: #ffdae0; color: #d63384; min-height: 100vh; }
+        #finalPage .container { background: rgba(255, 255, 255, 0.7); border: 2px solid #ffb6c1; margin-top: 5vh; }
+        
+        /* Style for your final photo */
+        .final-squad-photo {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="page active">
+        <div class="container">
+            <h1 style="color: #b8860b;">So my Kattavarathams 🎁</h1>
+            <p>Ready for the squad surprise?</p>
+            <button class="btn-open" onclick="startSquadSequence()">Open Message</button>
+        </div>
+    </div>
+
+    <div id="page3" class="page">
+        <h2 style="color: #b8860b;">Gang Memories 📸</h2>
+        <div class="photo-grid">
+            <img src="https://i.postimg.cc/JzWW9KDp/img-1.jpg">
+            <img src="https://i.postimg.cc/PrJLCX26/img-2.jpg">
+            <img src="https://i.postimg.cc/RVYWfkYF/img-3.jpg">
+            <img src="https://i.postimg.cc/4NyKYfWn/img-4.jpg">
+            <img src="https://i.postimg.cc/c4CKvxX2/img-5.jpg">
+            <img src="https://i.postimg.cc/sDLMSkLD/img-6.jpg">
+            <img src="https://i.postimg.cc/c4CKvxF1/img-7.jpg">
+            <img src="https://i.postimg.cc/HsNr5qNW/img-8.jpg">
+            <img src="https://i.postimg.cc/tCcsPKcF/img-9.jpg">
+            <img src="https://i.postimg.cc/sDLMSkLm/img-10.jpg">
+            <img src="https://i.postimg.cc/pXSm8wSZ/img-11.jpg">
+            <img src="https://i.postimg.cc/dVTL9WMC/img-15.jpg">
+            <img src="https://i.postimg.cc/FHQQ2Gd6/img-13.jpg">
+            <img src="https://i.postimg.cc/GmsHjM0G/img-14.jpg">
+            <img src="https://i.postimg.cc/4xhm18CP/img-15.jpg">
+            <img src="https://i.postimg.cc/mgFtSdx6/img-16.jpg">
+        </div>
+        <button class="btn-next" onclick="triggerIgnite()">Ready for 2026? 🥂</button>
+    </div>
+
+    <div id="finalPage" class="page">
+        <div class="container">
+            <h1 style="font-size: 2rem;">Happy New Year my Kattavarathams! 🥂</h1>
+            <p><b>so enik ariyila how we will enjoy together this year like we did in 2025 but i wish namal ee varsham orumich irunn ela kattavarathngal veendum cheyum ❤️ !</b></p>
+            
+            <img src="https://i.postimg.cc/TwSPmmkQ/img-squad.jpg" class="final-squad-photo" alt="Sooper Lee|Masterchi">
+        </div>
+    </div>
+
+    <audio id="mainMusic" loop><source src="https://files.catbox.moe/1it8ym.mp3"></audio>
+    <audio id="memberMusic"></audio> 
+
+    <script>
+        const members = [
+            { name: "Priyaja Chechi", desc: "Dance master vikram kazhinal ettavum best dancer. Nyangalde sawanthm chechi.Dil se achi hai, Potathi hai, Fun hai, Otta mind hai 🫠", img: "https://i.postimg.cc/vHccXjY8/priyaja.jpg", audio: "https://files.catbox.moe/0xkz56.mp3" },
+            { name: "Nikitha AKA Parri", desc: "Adhyam kandapol panjapavam. PAPADE SWANTHAM PARRIMOL. vaa thuranal onnegil thinan alengil therivilikan", img: "https://i.postimg.cc/2SNrvX3K/niki.jpg", audio: "https://files.catbox.moe/gv3sbd.mp3" },
+            { name: "Neha", desc: "Naaykale kaanumbol heart melt aavum… peg kaanumbol glass full aavum", img: "https://i.postimg.cc/D07YnLzY/neha.jpg", audio: "https://files.catbox.moe/lfbs2e.mp3" },
+            { name: "Aparna AKA Female Krishnan", desc: "Harshavardhan, shyam garu, Satjith, Akhil Nambiar, Aman Christ... list angotttt pokm. Alavalathi, poda pati, yedi Dushtee. Achanm Ammaym parayathe onnum cheyila but namakale ariyulu evide enthokeya cheyunne.", img: "https://i.postimg.cc/85phCHhZ/aparna.jpg", audio: "https://files.catbox.moe/4clthz.mp3" },
+            { name: "Sagar", desc: "Ellam Kattavarthinm kurach bhedam aan. Groupinte Papa. Malayali by heart, Mumbai by base, Gunda by default! 😂💪", img: "https://i.postimg.cc/zGMzvXKS/sagar.jpg", audio: "https://files.catbox.moe/4jlq0f.mp3" },
+            { name: "Amith Emzzz", desc: "Creatin, protein powder, kinder joy and kitcat. Roast cheyyumbo mic venda, drink cheyyumbo logic venda… KitKat koduthaal break varumenn ivante discovery!😜🍻", img: "https://i.postimg.cc/cLf9gFnJ/amait.jpg", audio: "https://files.catbox.moe/skv4n9.mp3" },
+            { name: "Darshan", desc: "Lagesh kumar pro max! ellārukkum help pannuvaan, aana sapda-sapda world slow motion aagum!😂", img: "https://i.postimg.cc/mDV2b3wV/darshan.jpg", audio: "https://files.catbox.moe/drqxoa.mp3" },
+            { name: "Pranav", desc: "Ee sadanam undakiyathale soo ningal para.", img: "https://i.postimg.cc/hhWY66ds/pranav.jpg", audio: "https://files.catbox.moe/fdzex7.mp3" }
+        ];
+
+        let currentMemberIndex = 0;
+        const memberAudio = document.getElementById('memberMusic');
+        const mainMusic = document.getElementById('mainMusic');
+
+        async function startSquadSequence() {
+            mainMusic.play();
+            confetti({ particleCount: 100 });
+
+            await Swal.fire({
+                title: 'A Note',
+                text: 'So our Kattavarathm started from onam dance practice till now...',
+                background: '#fffdf5', confirmButtonColor: '#d4af37'
+            });
+
+            showMemberSlide();
+        }
+
+        async function showMemberSlide() {
+            mainMusic.pause();
+            memberAudio.pause();
+            
+            const member = members[currentMemberIndex];
+            memberAudio.src = member.audio;
+            memberAudio.play();
+
+            const { isConfirmed } = await Swal.fire({
+                title: member.name,
+                html: `
+                    <img src="${member.img}" class="swal-member-img"><br>
+                    <p style="font-size: 1rem; color: #5d4037;">${member.desc}</p>
+                `,
+                confirmButtonText: (currentMemberIndex < 7) ? 'Next Member ➡️' : 'See Photos 📸',
+                confirmButtonColor: '#d4af37',
+                allowOutsideClick: false,
+                background: '#fffdf5'
+            });
+
+            if (isConfirmed) {
+                if (currentMemberIndex < 7) {
+                    currentMemberIndex++;
+                    showMemberSlide();
+                } else {
+                    memberAudio.pause();
+                    mainMusic.play(); // Resumes Main Music
+                    showPage('page3');
+                }
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function triggerIgnite() {
+            const { isConfirmed } = await Swal.fire({
+                title: 'Ready for 2026?',
+                confirmButtonText: 'Ignite the sparks ✨',
+                confirmButtonColor: '#d4af37'
+            });
+
+            if (isConfirmed) {
+                let timerInterval;
+                Swal.fire({
+                    title: 'Closing 2025...',
+                    html: 'Preparing 2026... <b>0</b>%',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        const b = Swal.getHtmlContainer().querySelector('b');
+                        let p = 0;
+                        timerInterval = setInterval(() => { 
+                            p += 2; 
+                            if(p <= 100) b.textContent = p; 
+                        }, 50);
+                    },
+                    willClose: () => clearInterval(timerInterval)
+                }).then(() => { 
+                    showPage('finalPage'); 
+                    confetti({ particleCount: 200 }); 
+                });
+            }x
+        }
+    </script>
+</body>
+</html>
